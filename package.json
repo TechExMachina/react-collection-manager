@@ -1,0 +1,30 @@
+{
+  "name": "react-collection-manager",
+  "version": "0.5.0",
+  "description": "react-collection-manager is a manager to list, add, edit, delete documents in mongo collection automaticaly",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/TechExMachina/react-collection-manager.git"
+  },
+  "keywords": [
+    "react",
+    "semantic",
+    "table",
+    "generator",
+    "modular"
+  ],
+  "author": "TechExMachina",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/TechExMachina/react-collection-manager/issues"
+  },
+  "homepage": "https://github.com/TechExMachina/react-collection-manager#readme",
+  "dependencies": {
+    "prop-types": "^15.5.8",
+    "react-table-generator": "^1.1.0"
+  }
+}
