@@ -1,6 +1,6 @@
 {
   "name": "react-collection-manager",
-  "version": "0.5.0",
+  "version": "0.6.0",
   "description": "react-collection-manager is a manager to list, add, edit, delete documents in mongo collection automaticaly",
   "main": "src/index.js",
   "scripts": {
