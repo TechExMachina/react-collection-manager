@@ -2,9 +2,11 @@
   "name": "react-collection-manager",
   "version": "0.6.0",
   "description": "react-collection-manager is a manager to list, add, edit, delete documents in mongo collection automaticaly",
-  "main": "src/index.js",
+  "main": "build/index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "webpack --watch",
+    "build": "webpack"
   },
   "repository": {
     "type": "git",
@@ -24,13 +26,19 @@
   },
   "homepage": "https://github.com/TechExMachina/react-collection-manager#readme",
   "peerDependencies": {
+    "@material-ui/core": "^3.9.3",
+    "@material-ui/icons": "^3.0.2",
     "react": "^16.8.6",
     "react-dom": "^16.8.6"
   },
   "dependencies": {
+    "@material-ui/core": "^3.9.3",
+    "@material-ui/icons": "^3.0.2",
     "prop-types": "^15.5.8",
     "react": "^16.8.6",
     "react-dom": "^16.8.6",
+    "react-table-generator": "^1.2.0",
+    "uniforms-material": "^2.0.0-alpha.1",
     "webpack": "^2.6.1"
   },
   "devDependencies": {
