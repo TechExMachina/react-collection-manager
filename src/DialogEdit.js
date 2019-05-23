@@ -34,7 +34,7 @@ class DialogEdit extends Component {
     const { fullScreenDialog = false, title, onSubmit } = this.props
     const { open, titleDialog, modelValues, schema } = this.state
 
-    console.log('schema:', schema)
+    console.log('schemadev:', schema)
 
     if (!schema) return null
 
