@@ -6,7 +6,7 @@ import DialogTitle from '@material-ui/core/DialogTitle/index'
 import DialogContent from '@material-ui/core/DialogContent/index'
 import DialogActions from '@material-ui/core/DialogActions/index'
 
-import Button from '@material-ui/core/Button/index'
+import Button from '@material-ui/core/Button'
 
 class DialogEdit extends Component {
   formRef = React.createRef()
@@ -33,6 +33,8 @@ class DialogEdit extends Component {
   render() {
     const { fullScreenDialog = false, title, onSubmit } = this.props
     const { open, titleDialog, modelValues, schema } = this.state
+
+    console.log('schema:', schema)
 
     if (!schema) return null
 

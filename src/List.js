@@ -22,9 +22,7 @@ const DisplayFile = props => {
   if (publicRead && type.indexOf('image') > -1)
     return <img src={publicLink} alt={name} width="150" />
 
-  return (
-    <div>{JSON.stringify({ name, type, publicRead, size, publicLink })}</div>
-  )
+  return <div>{JSON.stringify({ name, type, publicRead, size, publicLink })}</div>
 }
 
 const DisplayJson = props => (
@@ -43,40 +41,34 @@ const DisplayJson = props => (
 export default class List extends React.Component {
   state = {
     openConfirmDelete: false,
-    idDelete: null
+    idDelete: null,
   }
 
   dialogEdit = React.createRef()
 
   myButtonAdd = () => {
-    if (this.props.canAdd || this.props.canAdd === undefined) {
-      return (
-        <Button
-          variant="contained"
-          color="primary"
-          onClick={this.openFormToAdd}
-        >
+    const { canAdd = false } = this.props
+
+    return (
+      canAdd && (
+        <Button variant="contained" color="primary" onClick={this.openFormToAdd}>
           Add
           <AddIcon />
         </Button>
       )
-    }
-
-    return null
+    )
   }
 
   openFormToAdd = () =>
     this.dialogEdit.current.handleOpenForm({
       schema: this.props.schema,
       titleDialog: 'Add',
-      modelValues: {}
+      modelValues: {},
     })
 
-  showConfirmDelete = input =>
-    this.setState({ openConfirmDelete: true, idDelete: input._id })
+  showConfirmDelete = input => this.setState({ openConfirmDelete: true, idDelete: input._id })
 
-  handleCancel = () =>
-    this.setState({ openConfirmDelete: false, idDelete: null })
+  handleCancel = () => this.setState({ openConfirmDelete: false, idDelete: null })
 
   handleSubmit = values => {
     TXMopenLoader && TXMopenLoader()
@@ -126,7 +118,7 @@ export default class List extends React.Component {
     this.dialogEdit.current.handleOpenForm({
       schema,
       titleDialog: 'Edit',
-      modelValues
+      modelValues,
     })
   }
 
@@ -137,7 +129,7 @@ export default class List extends React.Component {
   }
 
   render() {
-    const { loading } = this.props
+    const { loading, canDelete = false, canEdit = false } = this.props
 
     if (loading) return <CircularProgress />
 
@@ -156,7 +148,7 @@ export default class List extends React.Component {
 
       // Delete button
       let deleteButton = null
-      if (this.props.canDelete || this.props.canDelete === undefined) {
+      if (canDelete) {
         deleteButton = (
           <Button
             key={entry._id + 100}
@@ -170,13 +162,9 @@ export default class List extends React.Component {
 
       // Edit Button
       let editButton = null
-      if (this.props.canEdit || this.props.canEdit === undefined) {
+      if (canEdit) {
         editButton = (
-          <Button
-            key={entry._id + 200}
-            color="primary"
-            onClick={() => this.handleUpdate(entry)}
-          >
+          <Button key={entry._id + 200} color="primary" onClick={() => this.handleUpdate(entry)}>
             Edit <EditIcon />
           </Button>
         )
@@ -199,7 +187,7 @@ export default class List extends React.Component {
           key: entry2._id + 300,
           onClick: () => {
             entry2.onClick(entry._id)
-          }
+          },
         })
         entries[index].actions.push(myButton)
       })
@@ -227,11 +215,7 @@ export default class List extends React.Component {
       <div>
         {this.myButtonAdd()}
 
-        <DialogEdit
-          ref={this.dialogEdit}
-          title={this.props.title}
-          onSubmit={this.handleSubmit}
-        />
+        <DialogEdit ref={this.dialogEdit} title={this.props.title} onSubmit={this.handleSubmit} />
 
         <br />
 
@@ -252,7 +236,7 @@ export default class List extends React.Component {
 
 List.defaultProps = {
   loading: false,
-  moreActions: []
+  moreActions: [],
 }
 
 List.propTypes = {
@@ -264,13 +248,13 @@ List.propTypes = {
   updateMethod: PropTypes.func.isRequired,
   deleteMethod: PropTypes.func.isRequired,
   insertMethod: PropTypes.func.isRequired,
-  canAdd: PropTypes.bool.isRequired,
-  canDelete: PropTypes.bool.isRequired,
-  canEdit: PropTypes.bool.isRequired,
+  canAdd: PropTypes.bool,
+  canDelete: PropTypes.bool,
+  canEdit: PropTypes.bool,
   moreActions: PropTypes.arrayOf(
     PropTypes.shape({
       button: PropTypes.element.isRequired,
-      onClick: PropTypes.func.isRequired
+      onClick: PropTypes.func.isRequired,
     })
-  )
+  ),
 }

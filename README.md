@@ -6,26 +6,30 @@
 
 ```bash
 $ npm i --save react-collection-manager
+
+or 
+
+$ yarn add react-collection-manager
 ```
 
 ## Props
 
-|              | Format     | Required | What it does ?                                                                                                                    |
-| ------------ | ---------- | -------- | --------------------------------------------------------------------------------------------------------------------------------- |
-| title        | `string`   | YES      | The title of the list                                                                                                             |
-| loading      | `boolean`  | YES      | Useless for the moment                                                                                                            |
-| columns      | `array`    | YES      | An array to initialize the table                                                                                                  |
-| entries      | `array`    | NO       | An array to fill the table                                                                                                        |
-| schema       | `array`    | Yes      | An array to display the add and update form: (See SimpleShema)                                                                    |
-| schemaEdit   | `array`    | NO       | An array to display the update form only: (See SimpleShema)                                                                       |
-| insertMethod | `function` | YES      | A callback when add form was submit. Must return a promise                                                                        |
-| updateMethod | `function` | YES      | A callback when update form was submit. Must return a promise                                                                     |
-| deleteMethod | `function` | YES      | A callback when delete action was submit. Must return a promise                                                                   |
-| manager      | `function` | YES      | A function which return the doc by id                                                                                             |
-| canAdd       | `boolean`  | YES      | Can this user add a document in this list ?                                                                                       |
-| canEdit      | `boolean`  | YES      | Can this user edit a document in this list ?                                                                                      |
-| canDelete    | `boolean`  | YES      | Can this user delete a document in this list ?                                                                                    |
-| moreActions  | `[object]` | NO       | An array of object `{ button: <ReactElement />, onClick: (_id) => { doSomething(_id); } }` to add more actions in the last column |
+|              | Format     | Default  | Required | What it does ?                                                                                                                    |
+| ------------ | ---------- | -------- | -------- | --------------------------------------------------------------------------------------------------------------------------------- |
+| title        | `string`   |          | YES      | The title of the list                                                                                                             |
+| loading      | `boolean`  |          | YES      | Useless for the moment                                                                                                            |
+| columns      | `array`    |          | YES      | An array to initialize the table                                                                                                  |
+| entries      | `array`    |          | NO       | An array to fill the table                                                                                                        |
+| schema       | `array`    |          | Yes      | An array to display the add and update form: (See SimpleShema)                                                                    |
+| schemaEdit   | `array`    |          | NO       | An array to display the update form only: (See SimpleShema)                                                                       |
+| insertMethod | `function` |          | YES      | A callback when add form was submit. Must return a promise                                                                        |
+| updateMethod | `function` |          | YES      | A callback when update form was submit. Must return a promise                                                                     |
+| deleteMethod | `function` |          | YES      | A callback when delete action was submit. Must return a promise                                                                   |
+| manager      | `function` |          | YES      | A function which return the doc by id                                                                                             |
+| canAdd       | `boolean`  | false    | NO      | Can this user add a document in this list ?                                                                                       |
+| canEdit      | `boolean`  | false    | YES      | Can this user edit a document in this list ?                                                                                      |
+| canDelete    | `boolean`  | false    | YES      | Can this user delete a document in this list ?                                                                                    |
+| moreActions  | `[object]` |          | NO       | An array of object `{ button: <ReactElement />, onClick: (_id) => { doSomething(_id); } }` to add more actions in the last column |
 
 ## Example
 
