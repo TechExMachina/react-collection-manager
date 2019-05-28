@@ -15,7 +15,7 @@ class DialogEdit extends Component {
     open: false,
     titleDialog: 'Add',
     modelValues: {},
-    schema: null
+    schema: null,
   }
 
   handleCloseForm = () => {
@@ -34,16 +34,10 @@ class DialogEdit extends Component {
     const { fullScreenDialog = false, title, onSubmit } = this.props
     const { open, titleDialog, modelValues, schema } = this.state
 
-    console.log('schemadev:', schema)
-
     if (!schema) return null
 
     return (
-      <Dialog
-        fullScreen={fullScreenDialog}
-        open={open}
-        onClose={this.handleCloseForm}
-      >
+      <Dialog fullScreen={fullScreenDialog} open={open} onClose={this.handleCloseForm}>
         <DialogTitle>{`${titleDialog} ${title}`}</DialogTitle>
         <DialogContent>
           <AutoForm

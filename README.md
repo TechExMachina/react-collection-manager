@@ -17,7 +17,7 @@ $ yarn add react-collection-manager
 |              | Format     | Default  | Required | What it does ?                                                                                                                    |
 | ------------ | ---------- | -------- | -------- | --------------------------------------------------------------------------------------------------------------------------------- |
 | title        | `string`   |          | YES      | The title of the list                                                                                                             |
-| loading      | `boolean`  |          | YES      | Useless for the moment                                                                                                            |
+| loading      | `boolean`  |          | YES      | Indicate the loading of populate data                                                                                                           |
 | columns      | `array`    |          | YES      | An array to initialize the table                                                                                                  |
 | entries      | `array`    |          | NO       | An array to fill the table                                                                                                        |
 | schema       | `array`    |          | Yes      | An array to display the add and update form: (See SimpleShema)                                                                    |

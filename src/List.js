@@ -71,7 +71,9 @@ export default class List extends React.Component {
   handleCancel = () => this.setState({ openConfirmDelete: false, idDelete: null })
 
   handleSubmit = values => {
-    TXMopenLoader && TXMopenLoader()
+    const { onSuccess, onError } = this.props
+
+    if (typeof global.TXMopenLoader !== 'undefined') TXMopenLoader()
 
     if (values._id) {
       const resultUpdate = this.props.updateMethod(values)
@@ -80,10 +82,16 @@ export default class List extends React.Component {
         .then(() => {
           this.dialogEdit.current.handleCloseForm()
 
-          Alert.success('Successfully edited !')
+          if (typeof global.Alert !== 'undefined') Alert.success('Successfully edited !')
+          if (onSuccess) onSuccess({ type: 'update', document: values })
         })
-        .catch(reason => Alert.error('Somethings went wrong : ' + reason))
-        .finally(() => TXMcloseLoader && TXMcloseLoader())
+        .catch(reason => {
+          if (typeof global.Alert !== 'undefined') Alert.error('Somethings went wrong : ' + reason)
+          if (onError) onError(reason)
+        })
+        .finally(() => {
+          if (typeof global.TXMcloseLoader !== 'undefined') TXMcloseLoader()
+        })
     } else {
       const resultInsert = this.props.insertMethod(values)
 
@@ -91,24 +99,40 @@ export default class List extends React.Component {
         .then(() => {
           this.dialogEdit.current.handleCloseForm()
 
-          Alert.success('Successfully added !')
+          if (typeof global.Alert !== 'undefined') Alert.success('Successfully added !')
+          if (onSuccess) onSuccess({ type: 'create', document: values })
         })
-        .catch(reason => Alert.error('Somethings went wrong : ' + reason))
-        .finally(() => TXMcloseLoader && TXMcloseLoader())
+        .catch(reason => {
+          if (typeof global.Alert !== 'undefined') Alert.error('Somethings went wrong : ' + reason)
+          if (onError) onError(reason)
+        })
+        .finally(() => {
+          if (typeof global.TXMcloseLoader !== 'undefined') TXMcloseLoader()
+        })
     }
   }
 
   handleConfirm = () => {
+    const { onSuccess, onError } = this.props
+
     const resultDelete = this.props.deleteMethod(this.state.idDelete)
 
     this.setState({ openConfirmDelete: false, idDelete: null })
 
-    TXMopenLoader && TXMopenLoader()
+    if (typeof global.TXMopenLoader !== 'undefined') TXMopenLoader()
 
     resultDelete
-      .then(() => Alert.success('Successfully deleted !'))
-      .catch(reason => Alert.error('Somethings went wrong : ' + reason))
-      .finally(() => TXMcloseLoader && TXMcloseLoader())
+      .then(() => {
+        if (typeof global.Alert !== 'undefined') Alert.success('Successfully deleted !')
+        if (onSuccess) onSuccess({ type: 'delete', document: values })
+      })
+      .catch(reason => {
+        if (typeof global.Alert !== 'undefined') Alert.error('Somethings went wrong : ' + reason)
+        if (onError) onError(reason)
+      })
+      .finally(() => {
+        if (typeof global.TXMcloseLoader !== 'undefined') TXMcloseLoader()
+      })
   }
 
   handleUpdate = entry => {
@@ -129,7 +153,7 @@ export default class List extends React.Component {
   }
 
   render() {
-    const { loading, canDelete = false, canEdit = false } = this.props
+    const { loading, canDelete = false, canEdit = false, style = {}, className = '' } = this.props
 
     if (loading) return <CircularProgress />
 
@@ -147,30 +171,24 @@ export default class List extends React.Component {
       entries[index].actions = []
 
       // Delete button
-      let deleteButton = null
-      if (canDelete) {
-        deleteButton = (
-          <Button
-            key={entry._id + 100}
-            color="secondary"
-            onClick={() => this.showConfirmDelete(entry)}
-          >
-            Remove <DelIcon />
-          </Button>
-        )
-      }
+      const deleteButton = canDelete ? (
+        <Button
+          key={entry._id + 100}
+          color="secondary"
+          onClick={() => this.showConfirmDelete(entry)}
+        >
+          Remove <DelIcon />
+        </Button>
+      ) : null
 
       // Edit Button
-      let editButton = null
-      if (canEdit) {
-        editButton = (
-          <Button key={entry._id + 200} color="primary" onClick={() => this.handleUpdate(entry)}>
-            Edit <EditIcon />
-          </Button>
-        )
-      }
+      const editButton = canEdit ? (
+        <Button key={entry._id + 200} color="primary" onClick={() => this.handleUpdate(entry)}>
+          Edit <EditIcon />
+        </Button>
+      ) : null
 
-      // Link that opens dcocument
+      // Link that opens document
       const openDocumentButton = (
         <Button
           key={entry._id + 400}
@@ -212,7 +230,7 @@ export default class List extends React.Component {
     )
 
     return (
-      <div>
+      <div style={style} className={className}>
         {this.myButtonAdd()}
 
         <DialogEdit ref={this.dialogEdit} title={this.props.title} onSubmit={this.handleSubmit} />
