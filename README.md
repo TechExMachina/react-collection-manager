@@ -28,6 +28,7 @@ $ yarn add react-collection-manager
 | canAdd       | `boolean`  | false   | NO       | Can this user add a document in this list ?                     |
 | canEdit      | `boolean`  | false   | YES      | Can this user edit a document in this list ?                    |
 | canDelete    | `boolean`  | false   | YES      | Can this user delete a document in this list ?                  |
+| moreActions  | `array`    | false   | NO       | Add specific action                                             |
 
 ## Example
 

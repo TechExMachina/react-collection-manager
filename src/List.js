@@ -2,15 +2,14 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import MaterialTable from 'material-table'
 
-import Dialog from '@material-ui/core/Dialog/index'
-import DialogTitle from '@material-ui/core/DialogTitle/index'
-import DialogContent from '@material-ui/core/DialogContent/index'
-import DialogActions from '@material-ui/core/DialogActions/index'
-import Button from '@material-ui/core/Button/index'
+import Dialog from '@material-ui/core/Dialog'
+import DialogTitle from '@material-ui/core/DialogTitle'
+import DialogContent from '@material-ui/core/DialogContent'
+import DialogActions from '@material-ui/core/DialogActions'
+import Button from '@material-ui/core/Button'
 import EditIcon from '@material-ui/icons/Edit'
 import DelIcon from '@material-ui/icons/Delete'
 import AddIcon from '@material-ui/icons/AddCircle'
-import CircularProgress from '@material-ui/core/CircularProgress/index'
 
 import AddBox from '@material-ui/icons/AddBox'
 import ArrowUpward from '@material-ui/icons/ArrowUpward'
@@ -161,6 +160,7 @@ export default class List extends React.Component {
       options = {},
       entries,
       columns,
+      moreActions = [],
     } = this.props
 
     const actions = []
@@ -199,6 +199,10 @@ export default class List extends React.Component {
           this.showConfirmDelete(rowData)
         },
       })
+
+    if (moreActions.length > 0) {
+      moreActions.forEach(a => actions.push(a))
+    }
 
     const confirmDialog = (
       <Dialog open={this.state.openConfirmDelete} onClose={this.handleCancel}>
