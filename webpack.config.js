@@ -19,5 +19,5 @@ module.exports = {
       },
     ],
   },
-  externals: /^(react|react-dom\/.*|@material-ui\/core\/.*|@material-ui\/icons\/.*|uniforms-material|react-table-generator)$/i,
+  externals: /^(react|react-dom\/.*|@material-ui\/core\/.*|@material-ui\/icons\/.*|uniforms-material|react-table-generator|material-table)$/i,
 }

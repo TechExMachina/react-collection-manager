@@ -1,6 +1,6 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import TableGenerator from 'react-table-generator'
+import MaterialTable from 'material-table'
 
 import Dialog from '@material-ui/core/Dialog/index'
 import DialogTitle from '@material-ui/core/DialogTitle/index'
@@ -12,31 +12,42 @@ import DelIcon from '@material-ui/icons/Delete'
 import AddIcon from '@material-ui/icons/AddCircle'
 import CircularProgress from '@material-ui/core/CircularProgress/index'
 
-import DialogEdit from './DialogEdit'
+import AddBox from '@material-ui/icons/AddBox'
+import ArrowUpward from '@material-ui/icons/ArrowUpward'
+import Check from '@material-ui/icons/Check'
+import ChevronLeft from '@material-ui/icons/ChevronLeft'
+import ChevronRight from '@material-ui/icons/ChevronRight'
+import Clear from '@material-ui/icons/Clear'
+import DeleteOutline from '@material-ui/icons/DeleteOutline'
+import FilterList from '@material-ui/icons/FilterList'
+import FirstPage from '@material-ui/icons/FirstPage'
+import LastPage from '@material-ui/icons/LastPage'
+import Remove from '@material-ui/icons/Remove'
+import SaveAlt from '@material-ui/icons/SaveAlt'
+import Search from '@material-ui/icons/Search'
+import ViewColumn from '@material-ui/icons/ViewColumn'
 
-const DisplayFile = props => {
-  if (!props[props.property]) return null
-
-  const { name, type, publicRead, size, publicLink } = props[props.property]
-
-  if (publicRead && type.indexOf('image') > -1)
-    return <img src={publicLink} alt={name} width="150" />
-
-  return <div>{JSON.stringify({ name, type, publicRead, size, publicLink })}</div>
+const tableIcons = {
+  Add: AddBox,
+  Check: Check,
+  Clear: Clear,
+  Delete: DeleteOutline,
+  DetailPanel: ChevronRight,
+  Edit: EditIcon,
+  Export: SaveAlt,
+  Filter: FilterList,
+  FirstPage: FirstPage,
+  LastPage: LastPage,
+  NextPage: ChevronRight,
+  PreviousPage: ChevronLeft,
+  ResetSearch: Clear,
+  Search: Search,
+  SortArrow: ArrowUpward,
+  ThirdStateCheck: Remove,
+  ViewColumn: ViewColumn,
 }
 
-const DisplayJson = props => (
-  <table>
-    <tbody>
-      {Object.entries(props[props.property]).map(([key, value]) => (
-        <tr key={key}>
-          <td>{key}:</td>
-          <td>{value}</td>
-        </tr>
-      ))}
-    </tbody>
-  </table>
-)
+import DialogEdit from './DialogEdit'
 
 export default class List extends React.Component {
   state = {
@@ -45,19 +56,6 @@ export default class List extends React.Component {
   }
 
   dialogEdit = React.createRef()
-
-  myButtonAdd = () => {
-    const { canAdd = false } = this.props
-
-    return (
-      canAdd && (
-        <Button variant="contained" color="primary" onClick={this.openFormToAdd}>
-          Add
-          <AddIcon />
-        </Button>
-      )
-    )
-  }
 
   openFormToAdd = () =>
     this.dialogEdit.current.handleOpenForm({
@@ -136,85 +134,71 @@ export default class List extends React.Component {
   }
 
   handleUpdate = entry => {
-    const modelValues = this.props.manager(entry._id)
     const schema = this.props.schemaEdit || this.props.schema
+
+    const keys = Object.keys(entry).filter(k => schema._schemaKeys.includes(k))
+
+    let object = {}
+
+    keys.forEach(k => {
+      object[k] = entry[k]
+    })
 
     this.dialogEdit.current.handleOpenForm({
       schema,
       titleDialog: 'Edit',
-      modelValues,
+      modelValues: object,
     })
-  }
-
-  handleOpenDocument = entry => {
-    if (entry.documentUrl) {
-      window.open(entry.documentUrl)
-    }
   }
 
   render() {
-    const { loading, canDelete = false, canEdit = false, style = {}, className = '' } = this.props
+    const {
+      canAdd = false,
+      canDelete = false,
+      canEdit = false,
+      style = {},
+      className = '',
+      options = {},
+      entries,
+      columns,
+    } = this.props
 
-    if (loading) return <CircularProgress />
+    const actions = []
 
-    const entries = [...this.props.entries]
-    const moreActions = [...this.props.moreActions]
-    const columns = this.props.columns.map(column => {
-      if (column.type === 'File') return { ...column, as: DisplayFile }
-      if (column.type === 'Json') return { ...column, as: DisplayJson }
-      return column
-    })
-
-    columns.push({ name: 'Actions', property: 'actions' })
-
-    entries.forEach((entry, index) => {
-      entries[index].actions = []
-
-      // Delete button
-      const deleteButton = canDelete ? (
-        <Button
-          key={entry._id + 100}
-          color="secondary"
-          onClick={() => this.showConfirmDelete(entry)}
-        >
-          Remove <DelIcon />
-        </Button>
-      ) : null
-
-      // Edit Button
-      const editButton = canEdit ? (
-        <Button key={entry._id + 200} color="primary" onClick={() => this.handleUpdate(entry)}>
-          Edit <EditIcon />
-        </Button>
-      ) : null
-
-      // Link that opens document
-      const openDocumentButton = (
-        <Button
-          key={entry._id + 400}
-          color="secondary"
-          onClick={() => this.handleOpenDocument(entry)}
-        >
-          Open Document
-        </Button>
-      )
-
-      // More buttons
-      moreActions.forEach(entry2 => {
-        const myButton = React.cloneElement(entry2.button, {
-          key: entry2._id + 300,
-          onClick: () => {
-            entry2.onClick(entry._id)
-          },
-        })
-        entries[index].actions.push(myButton)
+    if (canAdd)
+      actions.push({
+        icon: AddIcon,
+        iconProps: {
+          color: 'primary',
+        },
+        tooltip: 'Add',
+        isFreeAction: true,
+        onClick: this.openFormToAdd,
       })
 
-      entries[index].actions.push([editButton, deleteButton])
-      if (entries[index].documentUrl) {
-        entries[index].actions.push([openDocumentButton])
-      }
-    })
+    if (canEdit && !options.selection)
+      actions.push({
+        icon: EditIcon,
+        iconProps: {
+          color: 'action',
+        },
+        tooltip: 'Edit',
+        onClick: (event, rowData) => {
+          this.handleUpdate(rowData)
+        },
+      })
+
+    if (canDelete)
+      actions.push({
+        icon: DelIcon,
+        tooltip: 'Delete',
+        iconProps: {
+          color: 'error',
+        },
+        onClick: (event, rowData) => {
+          this.showConfirmDelete(rowData)
+        },
+      })
 
     const confirmDialog = (
       <Dialog open={this.state.openConfirmDelete} onClose={this.handleCancel}>
@@ -231,19 +215,26 @@ export default class List extends React.Component {
 
     return (
       <div style={style} className={className}>
-        {this.myButtonAdd()}
-
         <DialogEdit ref={this.dialogEdit} title={this.props.title} onSubmit={this.handleSubmit} />
 
         <br />
 
-        <TableGenerator
+        <MaterialTable
+          icons={tableIcons}
+          columns={columns.map(c => ({ ...c, title: c.name, field: c.property }))}
+          data={entries}
+          options={{
+            columnsButton: true,
+            pageSize: 25,
+            pageSizeOptions: [25, 50, 100],
+            emptyRowsWhenPaging: false,
+            filtering: true,
+            actionsColumnIndex: -1,
+            debounceInterval: 500,
+            ...options,
+          }}
           title={`List of ${this.props.title}`}
-          filtersBar={this.props.filtersBar}
-          onLoadingDataFromFilter={this.props.onLoadingDataFromFilter}
-          keyTableRow={this.props.keyTableRow}
-          columns={columns}
-          entries={entries}
+          actions={actions}
         />
 
         {confirmDialog}

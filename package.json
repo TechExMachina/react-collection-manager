@@ -1,6 +1,6 @@
 {
   "name": "react-collection-manager",
-  "version": "0.6.3",
+  "version": "0.6.4",
   "description": "react-collection-manager is a manager to list, add, edit, delete documents in mongo collection automaticaly",
   "main": "build/index.js",
   "scripts": {
@@ -15,7 +15,6 @@
   },
   "keywords": [
     "react",
-    "semantic",
     "table",
     "generator",
     "modular"
@@ -29,6 +28,7 @@
   "peerDependencies": {
     "@material-ui/core": "^3.9.3",
     "@material-ui/icons": "^3.0.2",
+    "material-table": "^1.39.0",
     "react": "^16.8.6",
     "react-dom": "^16.8.6"
   },
