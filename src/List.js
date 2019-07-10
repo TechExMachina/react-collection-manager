@@ -161,6 +161,7 @@ export default class List extends React.Component {
       entries,
       columns,
       moreActions = [],
+      loading = false,
     } = this.props
 
     const actions = []
@@ -239,6 +240,7 @@ export default class List extends React.Component {
           }}
           title={`List of ${this.props.title}`}
           actions={actions}
+          loading={loading}
         />
 
         {confirmDialog}
