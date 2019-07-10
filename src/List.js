@@ -240,7 +240,7 @@ export default class List extends React.Component {
           }}
           title={`List of ${this.props.title}`}
           actions={actions}
-          loading={loading}
+          isLoading={loading}
         />
 
         {confirmDialog}
