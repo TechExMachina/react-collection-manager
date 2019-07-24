@@ -145,7 +145,7 @@ export default class List extends React.Component {
 
     this.dialogEdit.current.handleOpenForm({
       schema,
-      titleDialog: 'Edit',
+      titleDialog: this.props.lang === 'fr' ? 'Modifier' : 'Edit',
       modelValues: object,
     })
   }
@@ -168,22 +168,16 @@ export default class List extends React.Component {
 
     if (canAdd)
       actions.push({
-        icon: AddIcon,
-        iconProps: {
-          color: 'primary',
-        },
-        tooltip: 'Add',
+        icon: () => <AddIcon color={'primary'} />,
+        tooltip: this.props.lang === 'fr' ? 'Ajouter' : 'Add',
         isFreeAction: true,
         onClick: this.openFormToAdd,
       })
 
     if (canEdit && !options.selection)
       actions.push({
-        icon: EditIcon,
-        iconProps: {
-          color: 'action',
-        },
-        tooltip: 'Edit',
+        icon: () => <EditIcon color={'action'} />,
+        tooltip: this.props.lang === 'fr' ? 'Modifier' : 'Edit',
         onClick: (event, rowData) => {
           this.handleUpdate(rowData)
         },
@@ -191,11 +185,8 @@ export default class List extends React.Component {
 
     if (canDelete)
       actions.push({
-        icon: DelIcon,
-        tooltip: 'Delete',
-        iconProps: {
-          color: 'error',
-        },
+        icon: () => <DelIcon color={'error'} />,
+        tooltip: this.props.lang === 'fr' ? 'Supprimer' : 'Delete',
         onClick: (event, rowData) => {
           this.showConfirmDelete(rowData)
         },
@@ -220,7 +211,12 @@ export default class List extends React.Component {
 
     return (
       <div style={style} className={className}>
-        <DialogEdit ref={this.dialogEdit} title={this.props.title} onSubmit={this.handleSubmit} />
+        <DialogEdit
+          ref={this.dialogEdit}
+          title={this.props.title}
+          lang={this.props.lang}
+          onSubmit={this.handleSubmit}
+        />
 
         <br />
 
@@ -238,7 +234,42 @@ export default class List extends React.Component {
             debounceInterval: 500,
             ...options,
           }}
-          title={`List of ${this.props.title}`}
+          localization={
+            this.props.lang === 'fr'
+              ? {
+                  pagination: {
+                    labelDisplayedRows: '{from}-{to} sur {count}',
+                    labelRowsSelect: 'lignes',
+                    labelRowsPerPage: 'lignes par page',
+                    firstAriaLabel: '1ere page',
+                    firstTooltip: '1ere page',
+                    previousAriaLabel: 'Page précédente',
+                    previousTooltip: 'Page précédente',
+                    nextAriaLabel: 'Page suivante',
+                    nextTooltip: 'Page suivante',
+                    lastAriaLabel: 'Derniere page',
+                    lastTooltip: 'Derniere page',
+                  },
+                  toolbar: {
+                    nRowsSelected: '{0} case(s) selectionnée(s)',
+                    showColumnsTitle: 'Selection des colonnes',
+                    showColumnsAriaLabel: 'Selection des colonnes',
+                    searchTooltip: 'Recherche',
+                    searchPlaceholder: 'Recherche',
+                  },
+                  header: {
+                    actions: 'Actions',
+                  },
+                  body: {
+                    emptyDataSourceMessage: 'Pas de résultat',
+                    filterRow: {
+                      filterTooltip: 'Filter',
+                    },
+                  },
+                }
+              : {}
+          }
+          title={`${this.props.lang === 'fr' ? 'Liste des' : 'List of'} ${this.props.title}`}
           actions={actions}
           isLoading={loading}
         />
@@ -259,6 +290,7 @@ List.propTypes = {
   entries: PropTypes.array.isRequired,
   columns: PropTypes.array.isRequired,
   title: PropTypes.string.isRequired,
+  lang: PropTypes.string,
   schema: PropTypes.object,
   updateMethod: PropTypes.func.isRequired,
   deleteMethod: PropTypes.func.isRequired,

@@ -13,7 +13,7 @@ class DialogEdit extends Component {
 
   state = {
     open: false,
-    titleDialog: 'Add',
+    titleDialog: this.props.lang === 'fr' ? 'Ajouter' : 'Add',
     modelValues: {},
     schema: null,
   }
@@ -31,7 +31,7 @@ class DialogEdit extends Component {
   }
 
   render() {
-    const { fullScreenDialog = false, title, onSubmit } = this.props
+    const { fullScreenDialog = false, title, onSubmit, lang } = this.props
     const { open, titleDialog, modelValues, schema } = this.state
 
     if (!schema) return null
@@ -53,9 +53,11 @@ class DialogEdit extends Component {
           />
         </DialogContent>
         <DialogActions>
-          <Button onClick={this.handleCloseForm}>Cancel</Button>,
+          <Button onClick={this.handleCloseForm}>
+            {this.props.lang === 'fr' ? 'Annuler' : 'Cancel'}
+          </Button>
           <Button color="primary" onClick={this.handleSubmit}>
-            Submit
+            {this.props.lang === 'fr' ? 'Enregistrer' : 'Submit'}
           </Button>
         </DialogActions>
       </Dialog>

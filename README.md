@@ -17,6 +17,7 @@ $ yarn add react-collection-manager
 |              | Format     | Default | Required | What it does ?                                                  |
 | ------------ | ---------- | ------- | -------- | --------------------------------------------------------------- |
 | title        | `string`   |         | YES      | The title of the list                                           |
+| lang         | `string`   | en      | NO       | Translate english to default value possible 'fr'                |
 | loading      | `boolean`  |         | YES      | Indicate the loading of populate data                           |
 | columns      | `array`    |         | YES      | An array to initialize the table                                |
 | entries      | `array`    |         | NO       | An array to fill the table                                      |
