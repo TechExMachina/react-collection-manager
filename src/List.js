@@ -251,7 +251,7 @@ export default class List extends React.Component {
                     lastTooltip: 'Derniere page',
                   },
                   toolbar: {
-                    addRemoveColumns: 'Ajout ou suppression des colonnes',
+                    addRemoveColumns: 'Afficher ou masquer des colonnes',
                     nRowsSelected: '{0} case(s) selectionnée(s)',
                     showColumnsTitle: 'Selection des colonnes',
                     showColumnsAriaLabel: 'Selection des colonnes',

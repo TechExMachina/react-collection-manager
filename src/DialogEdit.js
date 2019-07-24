@@ -53,11 +53,9 @@ class DialogEdit extends Component {
           />
         </DialogContent>
         <DialogActions>
-          <Button onClick={this.handleCloseForm}>
-            {this.props.lang === 'fr' ? 'Annuler' : 'Cancel'}
-          </Button>
+          <Button onClick={this.handleCloseForm}>{lang === 'fr' ? 'Annuler' : 'Cancel'}</Button>
           <Button color="primary" onClick={this.handleSubmit}>
-            {this.props.lang === 'fr' ? 'Enregistrer' : 'Submit'}
+            {lang === 'fr' ? 'Enregistrer' : 'Submit'}
           </Button>
         </DialogActions>
       </Dialog>
