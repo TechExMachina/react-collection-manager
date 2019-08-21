@@ -31,13 +31,25 @@ class DialogEdit extends Component {
   }
 
   render() {
-    const { fullScreenDialog = false, title, onSubmit, lang } = this.props
+    const {
+      fullScreenDialog = false,
+      title,
+      onSubmit,
+      lang,
+      classesCollectionManager = 'react-collection-manager',
+    } = this.props
     const { open, titleDialog, modelValues, schema } = this.state
 
     if (!schema) return null
 
     return (
-      <Dialog fullScreen={fullScreenDialog} open={open} onClose={this.handleCloseForm}>
+      <Dialog
+        fullScreen={fullScreenDialog}
+        open={open}
+        maxWidth={'lg'}
+        fullWidth={true}
+        onClose={this.handleCloseForm}
+      >
         <DialogTitle>{`${titleDialog} ${title}`}</DialogTitle>
         <DialogContent>
           <AutoForm
@@ -50,6 +62,7 @@ class DialogEdit extends Component {
             placeholder
             name={title}
             id="addList"
+            className={classesCollectionManager}
           />
         </DialogContent>
         <DialogActions>
