@@ -37,6 +37,7 @@ class DialogEdit extends Component {
       onSubmit,
       lang,
       classesCollectionManager = 'react-collection-manager',
+      dialogEditDisableEnforceFocus = false,
     } = this.props
     const { open, titleDialog, modelValues, schema } = this.state
 
@@ -49,6 +50,7 @@ class DialogEdit extends Component {
         maxWidth={'lg'}
         fullWidth={true}
         onClose={this.handleCloseForm}
+        disableEnforceFocus={dialogEditDisableEnforceFocus}
       >
         <DialogTitle>{`${titleDialog} ${title}`}</DialogTitle>
         <DialogContent>

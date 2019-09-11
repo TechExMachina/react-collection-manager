@@ -216,6 +216,7 @@ export default class List extends React.Component {
           title={this.props.title}
           lang={this.props.lang}
           onSubmit={this.handleSubmit}
+          dialogEditDisableEnforceFocus={this.props.dialogEditDisableEnforceFocus}
         />
 
         <br />
@@ -299,6 +300,7 @@ List.propTypes = {
   canAdd: PropTypes.bool,
   canDelete: PropTypes.bool,
   canEdit: PropTypes.bool,
+  dialogEditDisableEnforceFocus: PropTypes.bool,
   moreActions: PropTypes.arrayOf(
     PropTypes.shape({
       button: PropTypes.element.isRequired,
