@@ -223,7 +223,11 @@ export default class List extends React.Component {
 
         <MaterialTable
           icons={tableIcons}
-          columns={columns.map(c => ({ ...c, title: c.name, field: c.property }))}
+          columns={columns.map(c => ({
+            ...c,
+            title: !!c.name ? c.name : c.title,
+            field: !!c.property ? c.property : c.field,
+          }))}
           data={entries}
           options={{
             columnsButton: true,
