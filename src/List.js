@@ -174,7 +174,7 @@ export default class List extends React.Component {
         onClick: this.openFormToAdd,
       })
 
-    if (canEdit && !options.selection)
+    if (canEdit)
       actions.push({
         icon: () => <EditIcon color={'action'} />,
         tooltip: this.props.lang === 'fr' ? 'Modifier' : 'Edit',
