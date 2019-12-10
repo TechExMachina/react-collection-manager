@@ -222,6 +222,7 @@ export default class List extends React.Component {
         <br />
 
         <MaterialTable
+          {...this.props}
           icons={tableIcons}
           columns={columns.map(c => ({
             ...c,
