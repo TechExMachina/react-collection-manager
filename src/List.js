@@ -47,6 +47,7 @@ const tableIcons = {
 }
 
 import DialogEdit from './DialogEdit'
+import fr from './locales/fr'
 
 export default class List extends React.Component {
   state = {
@@ -70,8 +71,6 @@ export default class List extends React.Component {
   handleSubmit = values => {
     const { onSuccess, onError } = this.props
 
-    if (typeof global.TXMopenLoader !== 'undefined') TXMopenLoader()
-
     if (values._id) {
       const resultUpdate = this.props.updateMethod(values)
 
@@ -85,9 +84,6 @@ export default class List extends React.Component {
         .catch(reason => {
           if (typeof global.Alert !== 'undefined') Alert.error('Somethings went wrong : ' + reason)
           if (onError) onError(reason)
-        })
-        .finally(() => {
-          if (typeof global.TXMcloseLoader !== 'undefined') TXMcloseLoader()
         })
     } else {
       const resultInsert = this.props.insertMethod(values)
@@ -103,9 +99,6 @@ export default class List extends React.Component {
           if (typeof global.Alert !== 'undefined') Alert.error('Somethings went wrong : ' + reason)
           if (onError) onError(reason)
         })
-        .finally(() => {
-          if (typeof global.TXMcloseLoader !== 'undefined') TXMcloseLoader()
-        })
     }
   }
 
@@ -116,8 +109,6 @@ export default class List extends React.Component {
 
     this.setState({ openConfirmDelete: false, idDelete: null })
 
-    if (typeof global.TXMopenLoader !== 'undefined') TXMopenLoader()
-
     resultDelete
       .then(() => {
         if (typeof global.Alert !== 'undefined') Alert.success('Successfully deleted !')
@@ -126,9 +117,6 @@ export default class List extends React.Component {
       .catch(reason => {
         if (typeof global.Alert !== 'undefined') Alert.error('Somethings went wrong : ' + reason)
         if (onError) onError(reason)
-      })
-      .finally(() => {
-        if (typeof global.TXMcloseLoader !== 'undefined') TXMcloseLoader()
       })
   }
 
@@ -219,8 +207,6 @@ export default class List extends React.Component {
           dialogEditDisableEnforceFocus={this.props.dialogEditDisableEnforceFocus}
         />
 
-        <br />
-
         <MaterialTable
           {...this.props}
           icons={tableIcons}
@@ -240,42 +226,7 @@ export default class List extends React.Component {
             debounceInterval: 500,
             ...options,
           }}
-          localization={
-            this.props.lang === 'fr'
-              ? {
-                  pagination: {
-                    labelDisplayedRows: '{from}-{to} sur {count}',
-                    labelRowsSelect: 'lignes',
-                    labelRowsPerPage: 'lignes par page',
-                    firstAriaLabel: '1ere page',
-                    firstTooltip: '1ere page',
-                    previousAriaLabel: 'Page précédente',
-                    previousTooltip: 'Page précédente',
-                    nextAriaLabel: 'Page suivante',
-                    nextTooltip: 'Page suivante',
-                    lastAriaLabel: 'Derniere page',
-                    lastTooltip: 'Derniere page',
-                  },
-                  toolbar: {
-                    addRemoveColumns: 'Afficher ou masquer des colonnes',
-                    nRowsSelected: '{0} case(s) selectionnée(s)',
-                    showColumnsTitle: 'Selection des colonnes',
-                    showColumnsAriaLabel: 'Selection des colonnes',
-                    searchTooltip: 'Recherche',
-                    searchPlaceholder: 'Recherche',
-                  },
-                  header: {
-                    actions: 'Actions',
-                  },
-                  body: {
-                    emptyDataSourceMessage: 'Pas de résultat',
-                    filterRow: {
-                      filterTooltip: 'Filter',
-                    },
-                  },
-                }
-              : {}
-          }
+          localization={this.props.lang === 'fr' ? fr : {}}
           title={`${this.props.lang === 'fr' ? 'Liste des' : 'List of'} ${this.props.title}`}
           actions={actions}
           isLoading={loading}
