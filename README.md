@@ -18,31 +18,33 @@ $ yarn add react-collection-manager
 
 ## List Props
 
-|              | Format     | Default | Required | What it does ?                                                                                                                       |
-| ------------ | ---------- | ------- | -------- | ------------------------------------------------------------------------------------------------------------------------------------ |
-| title        | `string`   |         | YES      | The title of the list                                                                                                                |
-| lang         | `string`   | en      | NO       | Specify the locale, one of ['en', 'fr']                                                                                              |
-| loading      | `boolean`  |         | YES      | Indicate the loading of populate data                                                                                                |
-| columns      | `array`    |         | YES      | An array of columns objects (see below) to initialize the table                                                                      |
-| entries      | `array`    |         | NO       | An array to fill the table                                                                                                           |
-| schema       | `array`    |         | Yes      | An array to display the add and update form: (See SimpleShema)                                                                       |
-| schemaEdit   | `array`    |         | NO       | An array to display the update form only: (See SimpleShema)                                                                          |
-| insertMethod | `function` |         | YES      | A callback when add form was submit. Must return a promise                                                                           |
-| updateMethod | `function` |         | YES      | A callback when update form was submit. Must return a promise                                                                        |
-| deleteMethod | `function` |         | YES      | A callback when delete action was submit. Must return a promise                                                                      |
-| canAdd       | `boolean`  | false   | NO       | Can this user add a document in this list ?                                                                                          |
-| canEdit      | `boolean`  | false   | YES      | Can this user edit a document in this list ?                                                                                         |
-| canDelete    | `boolean`  | false   | YES      | Can this user delete a document in this list ?                                                                                       |
-| moreActions  | `array`    | false   | NO       | Add specific action                                                                                                                  |
-| options      | `array`    |         | NO       | Pass options to the material-table (like filtering, sorting, …). [See options property](https://material-table.com/#/docs/all-props) |
+|              | Format     | Default | Required | What it does ?                                                                                                                                                                                                                                                         |
+| ------------ | ---------- | ------- | -------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| title        | `string`   |         | YES      | The title of the list                                                                                                                                                                                                                                                  |
+| lang         | `string`   | en      | NO       | Specify the locale, one of ['en', 'fr']                                                                                                                                                                                                                                |
+| loading      | `boolean`  |         | YES      | Indicate the loading of populate data                                                                                                                                                                                                                                  |
+| columns      | `array`    |         | YES      | An array of columns objects (see below) to initialize the table                                                                                                                                                                                                        |
+| entries      | `array`    |         | NO       | An array to fill the table                                                                                                                                                                                                                                             |
+| schema       | `array`    |         | Yes      | An array to display the add and update form: (See SimpleShema)                                                                                                                                                                                                         |
+| schemaEdit   | `array`    |         | NO       | An array to display the update form only: (See SimpleShema)                                                                                                                                                                                                            |
+| insertMethod | `function` |         | YES      | A callback when add form was submit. <br /><br /> **Signature:** <br /> `function(values) => Promise<void>` <br /> values: An object which contain all the values of this form                                                                                         |
+| updateMethod | `function` |         | YES      | A callback when update form was submit. <br /><br /> **Signature:** <br /> `function(values) => Promise<void>` <br /> values: An object which contain all the values of this form                                                                                      |
+| deleteMethod | `function` |         | YES      | A callback when delete action was submit. <br /><br /> **Signature:** <br /> `function(id) => Promise<void>` <br /> id: The id of the document to delete                                                                                                               |
+| canAdd       | `boolean`  | false   | NO       | Can this user add a document in this list ?                                                                                                                                                                                                                            |
+| canEdit      | `boolean`  | false   | YES      | Can this user edit a document in this list ?                                                                                                                                                                                                                           |
+| canDelete    | `boolean`  | false   | YES      | Can this user delete a document in this list ?                                                                                                                                                                                                                         |
+| moreActions  | `array`    | false   | NO       | Add specific action                                                                                                                                                                                                                                                    |
+| options      | `object`   |         | NO       | Pass options to the material-table (like filtering, sorting, …). [See options property](https://material-table.com/#/docs/all-props)                                                                                                                                   |
+| onError      | `function` |         |          | A callback when the form was submit and it catch some error. <br /><br /> **Signature:** <br /> `function(reason) => void` <br /> reason: The reason of error. This is an Error Object                                                                                 |
+| onSuccess    | `function` |         |          | A callback when the form was submit and was saved successfully. <br /> <br /> **Signature:** <br /> `function({ type, document }) => void` <br /> type: The type of success. One of ['create', 'update', 'delete'] <br /> document: The document saved or just deleted |
 
 ## Columns objects Props
 
-|          | Format     | Default | Required | What it does ?                                                                   |
-| -------- | ---------- | ------- | -------- | -------------------------------------------------------------------------------- |
-| name     | `string`   |         | YES      | The name of the column                                                           |
-| property | `string`   |         | YES      | The name of field in the collection. Must be an attributes of objects in entries |
-| render   | `function` |         | NO       | Function to override the render component of this column. Must return component  |
+|          | Format     | Default | Required | What it does ?                                                                                                                                                                      |
+| -------- | ---------- | ------- | -------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| name     | `string`   |         | YES      | The name of the column                                                                                                                                                              |
+| property | `string`   |         | YES      | The name of field in the collection. Must be an attributes of objects in entries                                                                                                    |
+| render   | `function` |         | NO       | Function to override the render component of this column. Must return component <br /> <br /> **Signature:** <br /> `function(data) => node` <br /> data: The data of each line |
 
 ## Example
 
@@ -59,7 +61,7 @@ const entries = [
 const columns = [
   { name: 'Name', property: 'name' },
   { name: 'Description', property: 'description' },
-  { name: 'State', property: 'status', render: row => (row.status === 1 ? 'OK' : 'NOK') },
+  { name: 'State', property: 'status', render: data => (data.status === 1 ? 'OK' : 'NOK') },
 ]
 
 const moreActions = [
