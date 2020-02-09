@@ -1,6 +1,9 @@
+[![npm package](https://img.shields.io/npm/v/react-collection-manager/latest.svg)](https://www.npmjs.com/package/react-collection-manager)
+[![NPM Downloads](https://img.shields.io/npm/dm/react-collection-manager.svg?style=flat)](https://npmcharts.com/compare/react-collection-manager?minimal=true)
+
 # react-collection-manager
 
-> `react-collection-manager` is a manager to list, add, edit, delete documents in mongo collection automatically
+> react-collection-manager is a manager to list, add, edit, delete documents in mongo collection automatically
 >
 > This package use [Simpl-schema](https://github.com/aldeed/simple-schema-js) to build automatically the create and edit forms with [Uniforms](https://github.com/vazco/uniforms) thanks to material-ui version
 >
@@ -35,8 +38,9 @@ $ yarn add react-collection-manager
 | canDelete    | `boolean`  | false   | YES      | Can this user delete a document in this list ?                                                                                                                                                                                                                         |
 | moreActions  | `array`    | false   | NO       | Add specific action                                                                                                                                                                                                                                                    |
 | options      | `object`   |         | NO       | Pass options to the material-table (like filtering, sorting, …). [See options property](https://material-table.com/#/docs/all-props)                                                                                                                                   |
-| onError      | `function` |         |          | A callback when the form was submit and it catch some error. <br /><br /> **Signature:** <br /> `function(reason) => void` <br /> reason: The reason of error. This is an Error Object                                                                                 |
-| onSuccess    | `function` |         |          | A callback when the form was submit and was saved successfully. <br /> <br /> **Signature:** <br /> `function({ type, document }) => void` <br /> type: The type of success. One of ['create', 'update', 'delete'] <br /> document: The document saved or just deleted |
+| onError      | `function` |         | NO         | A callback when the form was submit and it catch some error. <br /><br /> **Signature:** <br /> `function(reason) => void` <br /> reason: The reason of error. This is an Error Object                                                                                 |
+| onSuccess    | `function` |         | NO         | A callback when the form was submit and was saved successfully. <br /> <br /> **Signature:** <br /> `function({ type, document }) => void` <br /> type: The type of success. One of ['create', 'update', 'delete'] <br /> document: The document saved or just deleted |
+| configuration | `node` | | NO | Pass a settings component to integrate external configuration |
 
 ## Columns objects Props
 
@@ -51,7 +55,8 @@ $ yarn add react-collection-manager
 ```javascript
 import React from 'react'
 import List from 'react-collection-manager'
-import MuiThemeProvider from '@material-ui/core/Styles/MuiThemeProvider'
+import { ThemeProvider as MuiThemeProvider } from '@material-ui/core/styles'
+import AccessTimeIcon from '@material-ui/icons/AccessTime'
 
 const entries = [
   { _id: 0, name: 'Test 1', description: 'description', status: 0 },
@@ -66,12 +71,13 @@ const columns = [
 
 const moreActions = [
   {
+    icon: AccessTimeIcon,
     button: <button>Click me</button>,
     onClick: _id => console.log,
   },
 ]
 
-const List = () => {
+const App = () => {
   return (
     <MuiThemeProvider>
       <List

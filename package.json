@@ -1,12 +1,12 @@
 {
   "name": "react-collection-manager",
-  "version": "0.7.5",
-  "description": "react-collection-manager is a manager to list, add, edit, delete documents in mongo collection automaticaly",
+  "version": "0.8.0",
+  "description": "react-collection-manager is a manager to list, add, edit, delete documents in a collection automatically based on https://material-ui.com",
   "main": "build/index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "clean": "rimraf",
-    "start": "webpack --watch",
+    "start": "webpack-dev-server --config ./demo/webpack.config.js --mode development",
     "build": "webpack -p"
   },
   "repository": {
@@ -26,12 +26,11 @@
   },
   "homepage": "https://github.com/TechExMachina/react-collection-manager#readme",
   "peerDependencies": {
+    "@material-ui/core": "^4.0.1",
     "react": "^16.8.6",
     "react-dom": "^16.8.6"
   },
-  "dependencies": {
-    "prop-types": "^15.5.8"
-  },
+  "dependencies": {},
   "devDependencies": {
     "@babel/cli": "^7.4.4",
     "@babel/core": "^7.4.5",
@@ -41,13 +40,19 @@
     "@babel/plugin-transform-react-jsx": "^7.3.0",
     "@babel/preset-env": "^7.4.5",
     "@babel/preset-react": "^7.0.0",
-    "@material-ui/core": "^4.0.0",
+    "@material-ui/core": "^4.9.1",
     "@material-ui/icons": "^4.2.0",
     "babel-loader": "^8.0.6",
-    "material-table": "^1.54.2",
+    "babel-polyfill": "^6.26.0",
+    "material-table": "^1.57.2",
     "null-loader": "^2.0.0",
     "prettier": "^1.17.1",
+    "react": "^16.8.6",
+    "react-dom": "^16.8.6",
+    "simpl-schema": "^1.5.7",
+    "uniforms-material": "^2.6.6",
     "webpack": "^4.32.2",
-    "webpack-cli": "^3.3.2"
+    "webpack-cli": "^3.3.2",
+    "webpack-dev-server": "^3.10.3"
   }
 }

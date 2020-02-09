@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState, useRef } from 'react'
 import PropTypes from 'prop-types'
 import MaterialTable from 'material-table'
 
@@ -10,6 +10,11 @@ import Button from '@material-ui/core/Button'
 import EditIcon from '@material-ui/icons/Edit'
 import DelIcon from '@material-ui/icons/Delete'
 import AddIcon from '@material-ui/icons/AddCircle'
+import { Popper } from '@material-ui/core'
+import Fade from '@material-ui/core/Fade'
+import CardContent from '@material-ui/core/CardContent'
+import Card from '@material-ui/core/Card'
+import ClickAwayListener from '@material-ui/core/ClickAwayListener'
 
 import AddBox from '@material-ui/icons/AddBox'
 import ArrowUpward from '@material-ui/icons/ArrowUpward'
@@ -25,6 +30,7 @@ import Remove from '@material-ui/icons/Remove'
 import SaveAlt from '@material-ui/icons/SaveAlt'
 import Search from '@material-ui/icons/Search'
 import ViewColumn from '@material-ui/icons/ViewColumn'
+import SettingsIcon from '@material-ui/icons/Settings'
 
 const tableIcons = {
   Add: AddBox,
@@ -49,81 +55,101 @@ const tableIcons = {
 import DialogEdit from './DialogEdit'
 import fr from './locales/fr'
 
-export default class List extends React.Component {
-  state = {
-    openConfirmDelete: false,
-    idDelete: null,
-  }
+const List = ({
+  onSuccess,
+  onError,
+  updateMethod,
+  insertMethod,
+  deleteMethod,
+  schemaEdit,
+  schema,
+  canAdd = false,
+  canDelete = false,
+  canEdit = false,
+  style = {},
+  className = '',
+  options = {},
+  entries,
+  columns,
+  moreActions = [],
+  loading = false,
+  configuration = null,
+  lang = 'en',
+  title = '',
+  dialogEditDisableEnforceFocus = false,
+  ...rest
+}) => {
+  const [openConfirmDelete, setOpenConfirmDelete] = useState(false)
+  const [idDelete, setIdDelete] = useState(null)
+  const [openPopper, setOpenPopper] = useState(false)
+  const [anchorEl, setAnchorEl] = useState(null)
 
-  dialogEdit = React.createRef()
+  const dialogEdit = useRef()
 
-  openFormToAdd = () =>
-    this.dialogEdit.current.handleOpenForm({
-      schema: this.props.schema,
+  const openFormToAdd = () =>
+    dialogEdit.current.handleOpenForm({
+      schema,
       titleDialog: 'Add',
       modelValues: {},
     })
 
-  showConfirmDelete = input => this.setState({ openConfirmDelete: true, idDelete: input._id })
+  const showConfirmDelete = input => {
+    setIdDelete(input._id)
+    setOpenConfirmDelete(true)
+  }
 
-  handleCancel = () => this.setState({ openConfirmDelete: false, idDelete: null })
+  const handleCancel = () => {
+    setIdDelete(null)
+    setOpenConfirmDelete(false)
+  }
 
-  handleSubmit = values => {
-    const { onSuccess, onError } = this.props
-
+  const handleSubmit = values => {
     if (values._id) {
-      const resultUpdate = this.props.updateMethod(values)
+      const resultUpdate = updateMethod(values)
 
       resultUpdate
         .then(() => {
-          this.dialogEdit.current.handleCloseForm()
+          dialogEdit.current.handleCloseForm()
 
-          if (typeof global.Alert !== 'undefined') Alert.success('Successfully edited !')
           if (onSuccess) onSuccess({ type: 'update', document: values })
         })
         .catch(reason => {
-          if (typeof global.Alert !== 'undefined') Alert.error('Somethings went wrong : ' + reason)
           if (onError) onError(reason)
         })
     } else {
-      const resultInsert = this.props.insertMethod(values)
+      const resultInsert = insertMethod(values)
 
       resultInsert
         .then(() => {
-          this.dialogEdit.current.handleCloseForm()
+          dialogEdit.current.handleCloseForm()
 
-          if (typeof global.Alert !== 'undefined') Alert.success('Successfully added !')
           if (onSuccess) onSuccess({ type: 'create', document: values })
         })
         .catch(reason => {
-          if (typeof global.Alert !== 'undefined') Alert.error('Somethings went wrong : ' + reason)
           if (onError) onError(reason)
         })
     }
   }
 
-  handleConfirm = () => {
-    const { onSuccess, onError } = this.props
+  const handleConfirm = () => {
+    const resultDelete = deleteMethod(idDelete)
 
-    const resultDelete = this.props.deleteMethod(this.state.idDelete)
-
-    this.setState({ openConfirmDelete: false, idDelete: null })
+    setOpenConfirmDelete(false)
+    setIdDelete(null)
 
     resultDelete
       .then(() => {
-        if (typeof global.Alert !== 'undefined') Alert.success('Successfully deleted !')
         if (onSuccess) onSuccess({ type: 'delete', document: values })
       })
       .catch(reason => {
-        if (typeof global.Alert !== 'undefined') Alert.error('Somethings went wrong : ' + reason)
         if (onError) onError(reason)
       })
   }
 
-  handleUpdate = entry => {
-    const schema = this.props.schemaEdit || this.props.schema
+  const handleUpdate = entry => {
+    const schemaSelected = schemaEdit || schema
 
-    const keys = Object.keys(entry).filter(k => schema._schemaKeys.includes(k))
+    const keys = Object.keys(entry).filter(k => schemaSelected._schemaKeys.includes(k))
 
     let object = {}
 
@@ -131,136 +157,122 @@ export default class List extends React.Component {
       object[k] = entry[k]
     })
 
-    this.dialogEdit.current.handleOpenForm({
+    dialogEdit.current.handleOpenForm({
       schema,
-      titleDialog: this.props.lang === 'fr' ? 'Modifier' : 'Edit',
+      titleDialog: lang === 'fr' ? 'Modifier' : 'Edit',
       modelValues: object,
     })
   }
 
-  render() {
-    const {
-      canAdd = false,
-      canDelete = false,
-      canEdit = false,
-      style = {},
-      className = '',
-      options = {},
-      entries,
-      columns,
-      moreActions = [],
-      loading = false,
-    } = this.props
+  const actions = []
 
-    const actions = []
-
-    if (canAdd)
-      actions.push({
-        icon: () => <AddIcon color={'primary'} />,
-        tooltip: this.props.lang === 'fr' ? 'Ajouter' : 'Add',
-        isFreeAction: true,
-        onClick: this.openFormToAdd,
-      })
-
-    if (canEdit)
-      actions.push({
-        icon: () => <EditIcon color={'action'} />,
-        tooltip: this.props.lang === 'fr' ? 'Modifier' : 'Edit',
-        onClick: (event, rowData) => {
-          this.handleUpdate(rowData)
-        },
-      })
-
-    if (canDelete)
-      actions.push({
-        icon: () => <DelIcon color={'error'} />,
-        tooltip: this.props.lang === 'fr' ? 'Supprimer' : 'Delete',
-        onClick: (event, rowData) => {
-          this.showConfirmDelete(rowData)
-        },
-      })
-
-    if (moreActions.length > 0) {
-      moreActions.forEach(a => actions.push(a))
-    }
-
-    const confirmDialog = (
-      <Dialog open={this.state.openConfirmDelete} onClose={this.handleCancel}>
-        <DialogTitle>Confirmation</DialogTitle>
-        <DialogContent>Are you sure ?</DialogContent>
-        <DialogActions>
-          <Button onClick={this.handleCancel}>Cancel</Button>
-          <Button color="primary" onClick={this.handleConfirm}>
-            Confirm
-          </Button>
-        </DialogActions>
-      </Dialog>
-    )
-
-    return (
-      <div style={style} className={className}>
-        <DialogEdit
-          ref={this.dialogEdit}
-          title={this.props.title}
-          lang={this.props.lang}
-          onSubmit={this.handleSubmit}
-          dialogEditDisableEnforceFocus={this.props.dialogEditDisableEnforceFocus}
-        />
-
-        <MaterialTable
-          {...this.props}
-          icons={tableIcons}
-          columns={columns.map(c => ({
-            ...c,
-            title: !!c.name ? c.name : c.title,
-            field: !!c.property ? c.property : c.field,
-          }))}
-          data={entries}
-          options={{
-            columnsButton: true,
-            pageSize: 25,
-            pageSizeOptions: [25, 50, 100],
-            emptyRowsWhenPaging: false,
-            filtering: true,
-            actionsColumnIndex: -1,
-            debounceInterval: 500,
-            ...options,
-          }}
-          localization={this.props.lang === 'fr' ? fr : {}}
-          title={`${this.props.lang === 'fr' ? 'Liste des' : 'List of'} ${this.props.title}`}
-          actions={actions}
-          isLoading={loading}
-        />
-
-        {confirmDialog}
-      </div>
-    )
-  }
-}
-
-List.defaultProps = {
-  loading: false,
-  moreActions: [],
-}
-
-List.propTypes = {
-  loading: PropTypes.bool,
-  entries: PropTypes.array.isRequired,
-  columns: PropTypes.array.isRequired,
-  title: PropTypes.string.isRequired,
-  lang: PropTypes.string,
-  schema: PropTypes.object,
-  updateMethod: PropTypes.func.isRequired,
-  deleteMethod: PropTypes.func.isRequired,
-  insertMethod: PropTypes.func.isRequired,
-  canAdd: PropTypes.bool,
-  canDelete: PropTypes.bool,
-  canEdit: PropTypes.bool,
-  dialogEditDisableEnforceFocus: PropTypes.bool,
-  moreActions: PropTypes.arrayOf(
-    PropTypes.shape({
-      button: PropTypes.element.isRequired,
-      onClick: PropTypes.func.isRequired,
+  if (canAdd)
+    actions.push({
+      icon: () => <AddIcon color={'primary'} />,
+      tooltip: lang === 'fr' ? 'Ajouter' : 'Add',
+      isFreeAction: true,
+      onClick: openFormToAdd,
     })
-  ),
+
+  if (canEdit)
+    actions.push({
+      icon: () => <EditIcon color={'action'} />,
+      tooltip: lang === 'fr' ? 'Modifier' : 'Edit',
+      onClick: (event, rowData) => handleUpdate(rowData),
+    })
+
+  if (canDelete)
+    actions.push({
+      icon: () => <DelIcon color={'error'} />,
+      tooltip: lang === 'fr' ? 'Supprimer' : 'Delete',
+      onClick: (event, rowData) => showConfirmDelete(rowData),
+    })
+
+  if (moreActions.length > 0) {
+    moreActions.forEach(a => actions.push(a))
+  }
+
+  if (configuration) {
+    actions.push({
+      icon: SettingsIcon,
+      tooltip: 'Configuration',
+      isFreeAction: true,
+      onClick: (event, data) => {
+        setAnchorEl(event.currentTarget)
+        setOpenPopper(!openPopper)
+      },
+    })
+  }
+
+  const confirmDialog = (
+    <Dialog open={openConfirmDelete} onClose={handleCancel}>
+      <DialogTitle>Confirmation</DialogTitle>
+      <DialogContent>Are you sure ?</DialogContent>
+      <DialogActions>
+        <Button onClick={handleCancel}>Cancel</Button>
+        <Button color="primary" onClick={handleConfirm}>
+          Confirm
+        </Button>
+      </DialogActions>
+    </Dialog>
+  )
+
+  return (
+    <div style={style} className={className}>
+      <Popper
+        open={openPopper}
+        anchorEl={anchorEl}
+        placement={'bottom-end'}
+        transition
+        style={{ zIndex: 999 }}
+      >
+        {({ TransitionProps }) => (
+          <ClickAwayListener onClickAway={() => setOpenPopper(false)}>
+            <Fade {...TransitionProps} timeout={350}>
+              <Card>
+                <CardContent>{configuration}</CardContent>
+              </Card>
+            </Fade>
+          </ClickAwayListener>
+        )}
+      </Popper>
+
+      <DialogEdit
+        ref={dialogEdit}
+        title={title}
+        lang={lang}
+        onSubmit={handleSubmit}
+        dialogEditDisableEnforceFocus={dialogEditDisableEnforceFocus}
+      />
+
+      <MaterialTable
+        {...rest}
+        icons={tableIcons}
+        columns={columns.map(c => ({
+          ...c,
+          title: !!c.name ? c.name : c.title,
+          field: !!c.property ? c.property : c.field,
+        }))}
+        data={entries}
+        options={{
+          columnsButton: true,
+          pageSize: 25,
+          pageSizeOptions: [25, 50, 100],
+          emptyRowsWhenPaging: false,
+          filtering: true,
+          actionsColumnIndex: -1,
+          debounceInterval: 500,
+          ...options,
+        }}
+        localization={lang === 'fr' ? fr : {}}
+        title={`${lang === 'fr' ? 'Liste des' : 'List of'} ${title}`}
+        actions={actions}
+        isLoading={loading}
+      />
+
+      {confirmDialog}
+    </div>
+  )
 }
+
+export default List
