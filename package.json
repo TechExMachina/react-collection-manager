@@ -2,7 +2,7 @@
   "name": "react-collection-manager",
   "version": "0.8.1",
   "description": "react-collection-manager is a manager to list, add, edit, delete documents in a collection automatically based on https://material-ui.com",
-  "main": "build/index.js",
+  "main": "dist/index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "clean": "rimraf",
@@ -21,7 +21,7 @@
     "modular"
   ],
   "files": [
-    "build"
+    "dist"
   ],
   "author": "TechExMachina",
   "license": "MIT",
@@ -34,12 +34,11 @@
     "react": "^16.8.6",
     "react-dom": "^16.8.6"
   },
-  "dependencies": {
-    "@storybook/addon-essentials": "^5.3.13"
-  },
+  "dependencies": {},
   "devDependencies": {
     "@babel/cli": "^7.4.4",
     "@babel/core": "^7.4.5",
+    "@storybook/addon-essentials": "^5.3.13",
     "@babel/plugin-proposal-class-properties": "^7.4.4",
     "@babel/plugin-proposal-object-rest-spread": "^7.4.4",
     "@babel/plugin-transform-parameters": "^7.4.4",
