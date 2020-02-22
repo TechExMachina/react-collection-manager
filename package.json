@@ -6,7 +6,7 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "clean": "rimraf",
-    "build": "webpack -p",
+    "build": "tsc --build tsconfig.json",
     "storybook": "start-storybook -p 6006 --docs",
     "build-storybook": "build-storybook --docs"
   },
@@ -38,7 +38,6 @@
   "devDependencies": {
     "@babel/cli": "^7.4.4",
     "@babel/core": "^7.4.5",
-    "@storybook/addon-essentials": "^5.3.13",
     "@babel/plugin-proposal-class-properties": "^7.4.4",
     "@babel/plugin-proposal-object-rest-spread": "^7.4.4",
     "@babel/plugin-transform-parameters": "^7.4.4",
@@ -51,6 +50,7 @@
     "@storybook/addon-a11y": "^5.3.13",
     "@storybook/addon-actions": "^5.3.13",
     "@storybook/addon-docs": "^5.3.13",
+    "@storybook/addon-essentials": "^5.3.13",
     "@storybook/addon-links": "^5.3.13",
     "@storybook/addons": "^5.3.13",
     "@storybook/preset-typescript": "^1.2.0",
@@ -60,7 +60,6 @@
     "contributor-faces": "^1.0.3",
     "fork-ts-checker-webpack-plugin": "^4.0.4",
     "material-table": "^1.57.2",
-    "null-loader": "^2.0.0",
     "prettier": "^1.17.1",
     "react": "^16.12.0",
     "react-docgen-typescript-loader": "^3.6.0",
@@ -72,9 +71,6 @@
     "typescript": "^3.8.2",
     "uniforms": "^2.6.6",
     "uniforms-bridge-simple-schema-2": "^2.6.6",
-    "uniforms-material": "^2.6.6",
-    "webpack": "^4.32.2",
-    "webpack-cli": "^3.3.2",
-    "webpack-dev-server": "^3.10.3"
+    "uniforms-material": "^2.6.6"
   }
 }
