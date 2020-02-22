@@ -2,7 +2,6 @@
 [![NPM Downloads](https://img.shields.io/npm/dm/react-collection-manager.svg?style=flat)](https://npmcharts.com/compare/react-collection-manager?minimal=true)
 ![Code style](https://img.shields.io/badge/code_style-prettier-ff69b4.svg)
 
-
 # react-collection-manager
 
 > react-collection-manager is a manager to list, add, edit, delete documents in mongo collection automatically
@@ -13,9 +12,9 @@
 
 ![react-collection-manager in action](https://raw.githubusercontent.com/techexmachina/react-collection-manager/master/react-collection-manager-demo.png)
 
-## Demo and documentation
+## Demonstration and Documentation
 
-For examples in action and full documentation, go to ...
+For examples in action and full documentation, go to [StoryBook](https://react-collection-manager.netlify.com/)
 
 OR
 
