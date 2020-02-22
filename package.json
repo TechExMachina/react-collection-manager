@@ -1,23 +1,27 @@
 {
   "name": "react-collection-manager",
-  "version": "0.8.0",
+  "version": "0.8.1",
   "description": "react-collection-manager is a manager to list, add, edit, delete documents in a collection automatically based on https://material-ui.com",
   "main": "build/index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "clean": "rimraf",
-    "start": "webpack-dev-server --config ./demo/webpack.config.js --mode development",
-    "build": "webpack -p"
+    "build": "webpack -p",
+    "storybook": "start-storybook -p 6006 --docs",
+    "build-storybook": "build-storybook --docs"
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/TechExMachina/react-collection-manager.git"
+    "url": "https://github.com/TechExMachina/react-collection-manager.git"
   },
   "keywords": [
     "react",
     "collection",
     "manager",
     "modular"
+  ],
+  "files": [
+    "build"
   ],
   "author": "TechExMachina",
   "license": "MIT",
@@ -30,7 +34,9 @@
     "react": "^16.8.6",
     "react-dom": "^16.8.6"
   },
-  "dependencies": {},
+  "dependencies": {
+    "@storybook/addon-essentials": "^5.3.13"
+  },
   "devDependencies": {
     "@babel/cli": "^7.4.4",
     "@babel/core": "^7.4.5",
@@ -40,16 +46,33 @@
     "@babel/plugin-transform-react-jsx": "^7.3.0",
     "@babel/preset-env": "^7.4.5",
     "@babel/preset-react": "^7.0.0",
+    "@babel/preset-typescript": "^7.8.3",
     "@material-ui/core": "^4.9.1",
     "@material-ui/icons": "^4.2.0",
+    "@storybook/addon-a11y": "^5.3.13",
+    "@storybook/addon-actions": "^5.3.13",
+    "@storybook/addon-docs": "^5.3.13",
+    "@storybook/addon-links": "^5.3.13",
+    "@storybook/addons": "^5.3.13",
+    "@storybook/preset-typescript": "^1.2.0",
+    "@storybook/react": "^5.3.13",
     "babel-loader": "^8.0.6",
     "babel-polyfill": "^6.26.0",
+    "contributor-faces": "^1.0.3",
+    "fork-ts-checker-webpack-plugin": "^4.0.4",
     "material-table": "^1.57.2",
     "null-loader": "^2.0.0",
     "prettier": "^1.17.1",
-    "react": "^16.8.6",
+    "react": "^16.12.0",
+    "react-docgen-typescript-loader": "^3.6.0",
     "react-dom": "^16.8.6",
+    "react-is": "^16.12.0",
     "simpl-schema": "^1.5.7",
+    "storybook-addon-deps": "^1.0.11",
+    "ts-loader": "^6.2.1",
+    "typescript": "^3.8.2",
+    "uniforms": "^2.6.6",
+    "uniforms-bridge-simple-schema-2": "^2.6.6",
     "uniforms-material": "^2.6.6",
     "webpack": "^4.32.2",
     "webpack-cli": "^3.3.2",

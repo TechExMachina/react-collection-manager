@@ -1,3 +1,3 @@
-import List from './List'
+import ReactCollectionManager from './ReactCollectionManager'
 
-export default List
+export default ReactCollectionManager

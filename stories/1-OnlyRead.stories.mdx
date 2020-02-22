@@ -1,0 +1,21 @@
+import { action } from '@storybook/addon-actions'
+import ReactCollectionManager from '../src/ReactCollectionManager'
+import { columns, entries, schema } from './data'
+
+import { Meta, Story, Preview, Props } from '@storybook/addon-docs/blocks'
+import {
+  FaceComponentForColumnProps,
+  FaceComponentForActionProps,
+} from '../src/ComponentsForStories'
+
+<Meta title="ReactCollectionManager/Read only" component={ReactCollectionManager} />
+
+# Permissions
+
+You can choose to display avoid insert, update and delete or parts of these
+
+<Preview>
+  <Story name="Standard">
+    <ReactCollectionManager title="Example" columns={columns} entries={entries} schema={schema} />
+  </Story>
+</Preview>

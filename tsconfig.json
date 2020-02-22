@@ -1,0 +1,18 @@
+{
+  "compilerOptions": {
+    "target": "esnext",
+    "moduleResolution": "node",
+    "allowJs": true,
+    "strict": true,
+    "esModuleInterop": true,
+    "jsx": "react"
+  },
+  "include": ["src"],
+  "exclude": ["node_modules"],
+  "typedocOptions": {
+    "mode": "file",
+    "inputFiles": ["src/ReactCollectionManager.tsx"],
+    "out": "docs",
+    "exclude": ["*.js", "**/*.js"]
+  }
+}

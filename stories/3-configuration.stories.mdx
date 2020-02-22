@@ -1,0 +1,26 @@
+import { action } from '@storybook/addon-actions'
+import ReactCollectionManager from '../src/ReactCollectionManager'
+import { columns, entries, schema, schemaInsert, configuration } from './data'
+
+import { Meta, Story, Preview, Props } from '@storybook/addon-docs/blocks'
+import {
+  FaceComponentForColumnProps,
+  FaceComponentForActionProps,
+} from '../src/ComponentsForStories'
+
+<Meta title="ReactCollectionManager/Configuration icon" component={ReactCollectionManager} />
+
+# Configuration icon
+
+You can pass a custom component to configartion props to integrate specific configuration. This component will be un a modal, call by a settings icon
+
+<Preview>
+  <Story name="Standard">
+    <ReactCollectionManager
+      title="Example"
+      columns={columns}
+      entries={entries}
+      configuration={configuration}
+    />
+  </Story>
+</Preview>

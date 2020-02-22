@@ -1,0 +1,32 @@
+import { action } from '@storybook/addon-actions'
+import ReactCollectionManager from '../src/ReactCollectionManager'
+import { columns, entries, schema, schemaInsert } from './data'
+
+import { Meta, Story, Preview, Props } from '@storybook/addon-docs/blocks'
+import {
+  FaceComponentForColumnProps,
+  FaceComponentForActionProps,
+} from '../src/ComponentsForStories'
+
+<Meta title="ReactCollectionManager/Different edit schema" component={ReactCollectionManager} />
+
+# Different edit schema
+
+You can specify a different schema for insert and update data.
+
+For example, some data collection can have less field in insert, and more fields in edit, or vice versa.
+
+<Preview>
+  <Story name="Standard">
+    <ReactCollectionManager
+      title="Example"
+      columns={columns}
+      entries={entries}
+      canAdd
+      canEdit
+      canDelete
+      schema={schemaInsert}
+      schemaEdit={schema}
+    />
+  </Story>
+</Preview>

@@ -1,5 +1,7 @@
 [![npm package](https://img.shields.io/npm/v/react-collection-manager/latest.svg)](https://www.npmjs.com/package/react-collection-manager)
 [![NPM Downloads](https://img.shields.io/npm/dm/react-collection-manager.svg?style=flat)](https://npmcharts.com/compare/react-collection-manager?minimal=true)
+![Code style](https://img.shields.io/badge/code_style-prettier-ff69b4.svg)
+
 
 # react-collection-manager
 
@@ -9,7 +11,24 @@
 >
 > This package is only compatible with Material-ui > 4.0
 
-## Installation
+![react-collection-manager in action](https://raw.githubusercontent.com/techexmachina/react-collection-manager/master/react-collection-manager-demo.png)
+
+## Demo and documentation
+
+For examples in action and full documentation, go to ...
+
+OR
+
+To run that demo on your own computer, clone this repository and :
+
+```bash
+$ yarn install
+$ yarn storybook
+```
+
+## Getting started
+
+### Installation
 
 ```bash
 $ npm i --save react-collection-manager
@@ -19,44 +38,12 @@ or
 $ yarn add react-collection-manager
 ```
 
-## List Props
-
-|              | Format     | Default | Required | What it does ?                                                                                                                                                                                                                                                         |
-| ------------ | ---------- | ------- | -------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| title        | `string`   |         | YES      | The title of the list                                                                                                                                                                                                                                                  |
-| lang         | `string`   | en      | NO       | Specify the locale, one of ['en', 'fr']                                                                                                                                                                                                                                |
-| loading      | `boolean`  |         | YES      | Indicate the loading of populate data                                                                                                                                                                                                                                  |
-| columns      | `array`    |         | YES      | An array of columns objects (see below) to initialize the table                                                                                                                                                                                                        |
-| entries      | `array`    |         | NO       | An array to fill the table                                                                                                                                                                                                                                             |
-| schema       | `array`    |         | Yes      | An array to display the add and update form: (See SimpleShema)                                                                                                                                                                                                         |
-| schemaEdit   | `array`    |         | NO       | An array to display the update form only: (See SimpleShema)                                                                                                                                                                                                            |
-| insertMethod | `function` |         | YES      | A callback when add form was submit. <br /><br /> **Signature:** <br /> `function(values) => Promise<void>` <br /> values: An object which contain all the values of this form                                                                                         |
-| updateMethod | `function` |         | YES      | A callback when update form was submit. <br /><br /> **Signature:** <br /> `function(values) => Promise<void>` <br /> values: An object which contain all the values of this form                                                                                      |
-| deleteMethod | `function` |         | YES      | A callback when delete action was submit. <br /><br /> **Signature:** <br /> `function(id) => Promise<void>` <br /> id: The id of the document to delete                                                                                                               |
-| canAdd       | `boolean`  | false   | NO       | Can this user add a document in this list ?                                                                                                                                                                                                                            |
-| canEdit      | `boolean`  | false   | YES      | Can this user edit a document in this list ?                                                                                                                                                                                                                           |
-| canDelete    | `boolean`  | false   | YES      | Can this user delete a document in this list ?                                                                                                                                                                                                                         |
-| moreActions  | `array`    | false   | NO       | Add specific action                                                                                                                                                                                                                                                    |
-| options      | `object`   |         | NO       | Pass options to the material-table (like filtering, sorting, …). [See options property](https://material-table.com/#/docs/all-props)                                                                                                                                   |
-| onError      | `function` |         | NO         | A callback when the form was submit and it catch some error. <br /><br /> **Signature:** <br /> `function(reason) => void` <br /> reason: The reason of error. This is an Error Object                                                                                 |
-| onSuccess    | `function` |         | NO         | A callback when the form was submit and was saved successfully. <br /> <br /> **Signature:** <br /> `function({ type, document }) => void` <br /> type: The type of success. One of ['create', 'update', 'delete'] <br /> document: The document saved or just deleted |
-| configuration | `node` | | NO | Pass a settings component to integrate external configuration |
-
-## Columns objects Props
-
-|          | Format     | Default | Required | What it does ?                                                                                                                                                                      |
-| -------- | ---------- | ------- | -------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| name     | `string`   |         | YES      | The name of the column                                                                                                                                                              |
-| property | `string`   |         | YES      | The name of field in the collection. Must be an attributes of objects in entries                                                                                                    |
-| render   | `function` |         | NO       | Function to override the render component of this column. Must return component <br /> <br /> **Signature:** <br /> `function(data) => node` <br /> data: The data of each line |
-
-## Example
+### Usage
 
 ```javascript
 import React from 'react'
-import List from 'react-collection-manager'
+import ReactCollectionManager from 'react-collection-manager'
 import { ThemeProvider as MuiThemeProvider } from '@material-ui/core/styles'
-import AccessTimeIcon from '@material-ui/icons/AccessTime'
 
 const entries = [
   { _id: 0, name: 'Test 1', description: 'description', status: 0 },
@@ -69,18 +56,10 @@ const columns = [
   { name: 'State', property: 'status', render: data => (data.status === 1 ? 'OK' : 'NOK') },
 ]
 
-const moreActions = [
-  {
-    icon: AccessTimeIcon,
-    button: <button>Click me</button>,
-    onClick: _id => console.log,
-  },
-]
-
 const App = () => {
   return (
     <MuiThemeProvider>
-      <List
+      <ReactCollectionManager
         title="Example"
         columns={columns}
         entries={entries}
@@ -96,9 +75,31 @@ const App = () => {
         canAdd
         canEdit
         canDelete
-        moreActions={moreActions}
       />
     </MuiThemeProvider>
   )
 }
 ```
+
+## Contributors
+
+### Code Contributors
+
+This project exists thanks to all the people who contribute. [[Contribute](CONTRIBUTING.md)].
+<a href="https://github.com/techexmachina/react-collection-manager/graphs/contributors">
+
+[//]: contributor-faces
+
+<a href="https://github.com/Sylchauf"><img src="https://avatars2.githubusercontent.com/u/5569487?v=4" title="Sylchauf" width="80" height="80"></a>
+<a href="https://github.com/apps/dependabot"><img src="https://avatars0.githubusercontent.com/in/29110?v=4" title="dependabot[bot]" width="80" height="80"></a>
+<a href="https://github.com/mathieumayjonade"><img src="https://avatars3.githubusercontent.com/u/50907838?v=4" title="mathieumayjonade" width="80" height="80"></a>
+
+[//]: contributor-faces
+
+### Financial Contributors
+
+<a href="https://github.com/techexmachina"><img src="https://avatars3.githubusercontent.com/u/36532333?v=4" title="Tech Ex Machina" width="80" height="80"></a>
+
+## License
+
+This project is licensed under the terms of the [MIT license](/LICENSE).

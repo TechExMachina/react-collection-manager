@@ -23,6 +23,7 @@ class DialogEdit extends Component {
   }
 
   handleOpenForm = newState => {
+    console.log('newState:', newState)
     this.setState({ open: true, ...newState })
   }
 

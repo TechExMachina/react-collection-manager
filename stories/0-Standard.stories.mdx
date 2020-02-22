@@ -1,0 +1,40 @@
+import { action } from '@storybook/addon-actions'
+import ReactCollectionManager from '../src/ReactCollectionManager'
+import { columns, entries, schema } from './data'
+
+import { Meta, Story, Preview, Props } from '@storybook/addon-docs/blocks'
+import {
+  FaceComponentForColumnProps,
+  FaceComponentForActionProps,
+} from '../src/ComponentsForStories'
+
+<Meta title="ReactCollectionManager/Standard" component={ReactCollectionManager} />
+
+# React Collection Manager
+
+This is the default component to manage a data collection
+
+<Preview>
+  <Story name="Standard">
+    <ReactCollectionManager
+      title="Example"
+      columns={columns}
+      entries={entries}
+      insertMethod={async values => action('insert')(values)}
+      updateMethod={async values => action('update')(values)}
+      deleteMethod={async values => action('delete')(values)}
+      canAdd
+      canEdit
+      canDelete
+      schema={schema}
+    />
+  </Story>
+</Preview>
+
+## Props
+
+<Props of={ReactCollectionManager} exclude={['style', 'className']} />
+
+## Column Object <a id="ColumnProps" />
+
+<Props of={FaceComponentForColumnProps} />
