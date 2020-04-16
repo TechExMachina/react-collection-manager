@@ -1,0 +1,53 @@
+import { action } from '@storybook/addon-actions'
+import ReactCollectionManager from '../src/ReactCollectionManager'
+import { columns, entries, schema, schemaInsert, configuration } from './data'
+
+import { Meta, Story, Preview, Props } from '@storybook/addon-docs/blocks'
+import {
+  FaceComponentForColumnProps,
+  FaceComponentForActionProps,
+  SpecificForm
+} from '../src/ComponentsForStories'
+
+<Meta title="ReactCollectionManager/Specific form" component={ReactCollectionManager} />
+
+# Specific form
+
+You can pass a custom component to display Add/Edit forms
+
+<Preview>
+  <Story name="Standard">
+    <ReactCollectionManager
+      title="Example"
+      columns={columns}
+      entries={entries}
+      canAdd={true}
+      schema={schema}
+      components={{form: SpecificForm}}
+    />
+  </Story>
+</Preview>
+
+Let's see an example of form component :
+
+<code>
+    {`const SpecificForm = React.forwardRef((props, ref) => {`}
+    <br />
+    {`  return (`}
+    <br />
+    {`    <div>`}
+    <br />
+    {`      <AutoForm ref={ref} {...props}>`}
+    <br />
+    {`        <AutoField name={'name'} />`}
+    <br />
+    {`        <AutoField name={'description'} />`}
+    <br />
+    {`      </AutoForm>`}
+    <br />
+    {`    </div>`}
+    <br />
+    {`  )`}
+    <br />
+    {`})`}
+</code>

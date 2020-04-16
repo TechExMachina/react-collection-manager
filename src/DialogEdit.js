@@ -23,7 +23,6 @@ class DialogEdit extends Component {
   }
 
   handleOpenForm = newState => {
-    console.log('newState:', newState)
     this.setState({ open: true, ...newState })
   }
 
@@ -42,7 +41,13 @@ class DialogEdit extends Component {
     } = this.props
     const { open, titleDialog, modelValues, schema } = this.state
 
-    if (!schema) return null
+    if (!schema) {
+      console.error('You must pass a valid schema to react-collection-manager')
+      return null
+    }
+
+    const Component =
+      this.props.components && this.props.components.form ? this.props.components.form : AutoForm
 
     return (
       <Dialog
@@ -55,8 +60,7 @@ class DialogEdit extends Component {
       >
         <DialogTitle>{`${titleDialog} ${title}`}</DialogTitle>
         <DialogContent>
-          <AutoForm
-            grid={3}
+          <Component
             ref={this.formRef}
             schema={schema}
             model={modelValues}

@@ -154,6 +154,17 @@ type Props = {
    *  Specify the locale
    */
   lang: 'fr' | 'en'
+  /**
+   * Pass a form component to override automatic form generation.
+   * Be careful: Your component must forward the ref to your Autoform instance
+   *
+   * **Signature:**
+   *
+   * - onSubmit : A call function to called with values when your form was submited
+   */
+  components?: {
+    form?: ReactNode
+  }
   dialogEditDisableEnforceFocus?: boolean
   children?: ReactNode
 }
@@ -180,6 +191,7 @@ const ReactCollectionManager = ({
   lang = 'en',
   title = '',
   dialogEditDisableEnforceFocus = false,
+  components = {},
   ...rest
 }: Props) => {
   const [openConfirmDelete, setOpenConfirmDelete] = useState(false)
@@ -321,11 +333,11 @@ const ReactCollectionManager = ({
   const confirmDialog = (
     <Dialog open={openConfirmDelete} onClose={handleCancel}>
       <DialogTitle>Confirmation</DialogTitle>
-      <DialogContent>Are you sure ?</DialogContent>
+      <DialogContent>{lang === 'fr' ? 'Êtes vous sûr ?' : 'Are you sure ?'}</DialogContent>
       <DialogActions>
-        <Button onClick={handleCancel}>Cancel</Button>
+        <Button onClick={handleCancel}>{lang === 'fr' ? 'Annuler' : 'Cancel'}</Button>
         <Button color="primary" onClick={handleConfirm}>
-          Confirm
+          {lang === 'fr' ? 'Confirmer' : 'Confirm'}
         </Button>
       </DialogActions>
     </Dialog>
@@ -357,6 +369,7 @@ const ReactCollectionManager = ({
         title={title}
         lang={lang}
         onSubmit={handleSubmit}
+        components={components}
         dialogEditDisableEnforceFocus={dialogEditDisableEnforceFocus}
       />
 
