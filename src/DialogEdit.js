@@ -22,7 +22,7 @@ class DialogEdit extends Component {
     this.setState({ open: false })
   }
 
-  handleOpenForm = newState => {
+  handleOpenForm = (newState) => {
     this.setState({ open: true, ...newState })
   }
 
@@ -40,6 +40,8 @@ class DialogEdit extends Component {
       dialogEditDisableEnforceFocus = false,
     } = this.props
     const { open, titleDialog, modelValues, schema } = this.state
+
+    if (!open) return null
 
     if (!schema) {
       console.error('You must pass a valid schema to react-collection-manager')
