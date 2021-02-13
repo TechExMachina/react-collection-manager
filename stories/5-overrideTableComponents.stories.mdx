@@ -1,0 +1,39 @@
+import { action } from '@storybook/addon-actions'
+import ReactCollectionManager from '../src/ReactCollectionManager'
+import { columns, entries, schema, schemaInsert, configuration } from './data'
+
+import { Meta, Story, Preview, Props } from '@storybook/addon-docs/blocks'
+import {
+  FaceComponentForColumnProps,
+  FaceComponentForActionProps,
+  SpecificForm,
+} from '../src/ComponentsForStories'
+
+<Meta title="ReactCollectionManager/OverrideTableComponents" component={ReactCollectionManager} />
+
+# Specific form
+
+You can pass a custom component to override components in material-table
+
+<Preview>
+  <Story name="Standard">
+    <ReactCollectionManager
+      title="Example"
+      columns={columns}
+      entries={entries}
+      canAdd={true}
+      schema={schema}
+      tableComponents={{
+        Action: (props) => {
+          //If isn't the add action
+          console.log('props.action.tooltip:', props.action)
+          if (typeof props.action === typeof Function || props.action.tooltip !== 'Add') {
+            return <MTableAction {...props} />
+          } else {
+            return <button onClick={props.action.onClick}>Add</button>
+          }
+        },
+      }}
+    />
+  </Story>
+</Preview>
