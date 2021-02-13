@@ -349,6 +349,7 @@ const ReactCollectionManager = ({
     </Dialog>
   )
 
+  // @ts-ignore
   return (
     <div style={style} className={className}>
       <Popper
@@ -380,9 +381,9 @@ const ReactCollectionManager = ({
       />
 
       {
-        // @ts-ignore
         <MaterialTable
           {...rest}
+          // @ts-ignore
           icons={tableIcons}
           columns={columns.map((c: any) => ({
             ...c,

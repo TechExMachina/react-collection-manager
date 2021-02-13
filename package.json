@@ -1,9 +1,10 @@
 {
   "name": "react-collection-manager",
-  "version": "0.9.3",
+  "version": "0.9.4",
   "description": "react-collection-manager is a manager to list, add, edit, delete documents in a collection automatically based on https://material-ui.com",
   "main": "dist/index.js",
   "scripts": {
+    "prepublish": "yarn run build",
     "test": "echo \"Error: no test specified\" && exit 1",
     "clean": "rimraf",
     "build": "tsc --build tsconfig.json",
