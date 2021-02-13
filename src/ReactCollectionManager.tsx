@@ -165,6 +165,11 @@ type Props = {
   components?: {
     form?: ReactNode
   }
+
+  /**
+   * Pass components to override material-table component [Components Overriding](https://material-table.com/#/docs/features/component-overriding)
+   */
+  tableComponents?: any
   dialogEditDisableEnforceFocus?: boolean
   children?: ReactNode
 }
@@ -192,6 +197,7 @@ const ReactCollectionManager = ({
   title = '',
   dialogEditDisableEnforceFocus = false,
   components = {},
+  tableComponents = {},
   ...rest
 }: Props) => {
   const [openConfirmDelete, setOpenConfirmDelete] = useState(false)
@@ -273,11 +279,11 @@ const ReactCollectionManager = ({
   const handleUpdate = (entry: any) => {
     const schemaSelected = schemaEdit || schema
 
-    const keys = Object.keys(entry).filter(k => schemaSelected._schemaKeys.includes(k))
+    const keys = Object.keys(entry).filter((k) => schemaSelected._schemaKeys.includes(k))
 
     let object = {}
 
-    keys.forEach(k => {
+    keys.forEach((k) => {
       // @ts-ignore
       object[k] = entry[k]
     })
@@ -398,6 +404,7 @@ const ReactCollectionManager = ({
           title={`${lang === 'fr' ? 'Liste des' : 'List of'} ${title}`}
           actions={actions}
           isLoading={loading}
+          components={tableComponents}
         />
       }
 

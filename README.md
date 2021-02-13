@@ -80,6 +80,10 @@ const App = () => {
 }
 ```
 
+## Props
+
+|
+
 ## Contributors
 
 ### Code Contributors
