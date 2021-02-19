@@ -314,7 +314,7 @@ const ReactCollectionManager = ({
         return <EditIcon color={'action'} style={{ opacity: disabled ? 0.5 : 1 }} />
       },
       tooltip: lang === 'fr' ? 'Modifier' : 'Edit',
-      disabled: typeof canEdit === 'function' ? canEdit(rowData) : false,
+      disabled: typeof canEdit === 'function' ? !canEdit(rowData) : false,
       onClick: (event: any, rowData: any) => handleUpdate(rowData),
     }))
 
@@ -324,7 +324,7 @@ const ReactCollectionManager = ({
         <DelIcon color={'error'} style={{ opacity: disabled ? 0.5 : 1 }} />
       ),
       tooltip: lang === 'fr' ? 'Supprimer' : 'Delete',
-      disabled: typeof canDelete === 'function' ? canDelete(rowData) : false,
+      disabled: typeof canDelete === 'function' ? !canDelete(rowData) : false,
       onClick: (event: any, rowData: any) => showConfirmDelete(rowData),
     }))
 
