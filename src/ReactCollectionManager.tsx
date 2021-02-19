@@ -55,6 +55,8 @@ import DialogEdit from './DialogEdit'
 import fr from './locales/fr'
 import { Column } from './types/columns'
 
+type DisabledFunc = (rowData: Record<any, any>) => boolean
+
 type Props = {
   style?: Record<string, string>
   className?: string
@@ -77,11 +79,11 @@ type Props = {
   /**
    * Can this user edit a document in this list ?
    */
-  canEdit: boolean
+  canEdit: boolean | DisabledFunc
   /**
    * Can this user delete a document in this list ?
    */
-  canDelete: boolean
+  canDelete: boolean | DisabledFunc
   /**
    * A callback when update form was submit. Required if canUpdate is true
    *
@@ -307,18 +309,24 @@ const ReactCollectionManager = ({
     })
 
   if (canEdit)
-    actions.push({
-      icon: () => <EditIcon color={'action'} />,
+    actions.push((rowData: Record<any, any>) => ({
+      icon: ({ disabled }: { disabled?: boolean }) => {
+        return <EditIcon color={'action'} style={{ opacity: disabled ? 0.5 : 1 }} />
+      },
       tooltip: lang === 'fr' ? 'Modifier' : 'Edit',
+      disabled: typeof canEdit === 'function' ? canEdit(rowData) : false,
       onClick: (event: any, rowData: any) => handleUpdate(rowData),
-    })
+    }))
 
   if (canDelete)
-    actions.push({
-      icon: () => <DelIcon color={'error'} />,
+    actions.push((rowData: Record<any, any>) => ({
+      icon: ({ disabled }: { disabled?: boolean }) => (
+        <DelIcon color={'error'} style={{ opacity: disabled ? 0.5 : 1 }} />
+      ),
       tooltip: lang === 'fr' ? 'Supprimer' : 'Delete',
+      disabled: typeof canDelete === 'function' ? canDelete(rowData) : false,
       onClick: (event: any, rowData: any) => showConfirmDelete(rowData),
-    })
+    }))
 
   if (moreActions.length > 0) {
     moreActions.forEach((a: any) => actions.push(a))
@@ -381,9 +389,9 @@ const ReactCollectionManager = ({
       />
 
       {
+        // @ts-ignore
         <MaterialTable
           {...rest}
-          // @ts-ignore
           icons={tableIcons}
           columns={columns.map((c: any) => ({
             ...c,

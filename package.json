@@ -1,6 +1,6 @@
 {
   "name": "react-collection-manager",
-  "version": "0.9.4",
+  "version": "0.9.5",
   "description": "react-collection-manager is a manager to list, add, edit, delete documents in a collection automatically based on https://material-ui.com",
   "main": "dist/index.js",
   "scripts": {
