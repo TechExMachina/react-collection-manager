@@ -29,12 +29,16 @@ $ yarn storybook
 
 ### Installation
 
+Install the package
+
 ```bash
-$ npm i --save react-collection-manager
-
-or
-
 $ yarn add react-collection-manager
+```
+
+Install the dependencies in your project
+
+```bash
+$ yarn add @material-table/core
 ```
 
 ### Usage
@@ -52,7 +56,7 @@ const entries = [
 const columns = [
   { name: 'Name', property: 'name' },
   { name: 'Description', property: 'description' },
-  { name: 'State', property: 'status', render: data => (data.status === 1 ? 'OK' : 'NOK') },
+  { name: 'State', property: 'status', render: (data) => (data.status === 1 ? 'OK' : 'NOK') },
 ]
 
 const App = () => {
@@ -62,13 +66,13 @@ const App = () => {
         title="Example"
         columns={columns}
         entries={entries}
-        insertMethod={async values => {
+        insertMethod={async (values) => {
           /* do some stuff */
         }}
-        updateMethod={async values => {
+        updateMethod={async (values) => {
           /* do some stuff */
         }}
-        deleteMethod={async values => {
+        deleteMethod={async (values) => {
           /* do some stuff */
         }}
         canAdd
